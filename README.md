@@ -79,7 +79,7 @@ Die erläuterung zu unserer Strategie für die Navigation im Innenbereich:
 Zuerst werden die Übergebenen Referenzen zu den Sensor und Aktuator und Platform
 Objekten gespeichert, im Anschluss werden Logdateien angelegt.
 
-'''python
+```py3
 def __init__(self, sensors, actuators, platform):
     self.sensors = sensors
     self.actuators = actuators
@@ -91,7 +91,7 @@ def __init__(self, sensors, actuators, platform):
     self.uwb_dwm_log_file = open('{}uwb_dwm_log_{}.txt'.format(dir, date), 'a+')
     self.uwb_raw_log_file = open('{}uwb_raw_log_{}.txt'.format(dir, date), 'a+')
     self.lidar_log_file =   open('{}lidar_log_{}.txt'.format(dir, date), 'a+')
-'''
+```
 
 Nun kommen wir zur eigentlichen Datenverarbeitung. Hier muss man leider sagen,
 das nicht alles fertig geworden ist, und deshalb bis hierhin nur geloggt wurde,
@@ -103,7 +103,7 @@ versucht zu jedem gefundenen Anker die Position aus einem dictionary mit bekannt
 Ankerpositionen zu finden, um dann das resultierende Gleichungssystem nach dem
 Newton-Raphson Verfahren zu lösen.
 
-'''python
+```python
 anchor_pos = {0xDCAB :(-3010, 2549 ,  2313),
               0x40AB :(-2976, 7398 ,  2335),
               0x8083 :( 4298, 7333 ,  2685),
@@ -131,4 +131,4 @@ def do_stuff(self):
         except:
             pass
         self.uwb_dwm_log_file.write("{}\n".format(list(uwb_dists['position'])))
-'''
+```
