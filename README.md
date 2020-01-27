@@ -132,3 +132,29 @@ def do_stuff(self):
             pass
         self.uwb_dwm_log_file.write("{}\n".format(list(uwb_dists['position'])))
 ```
+
+## UWB Sensor Implementation
+
+Die Implementation des UWB-Sensors ist lediglich ein Wrapper um die
+vom Hersteller herausgegebene C Bibliothek (DWM_API), aus der einige
+Date rausgefiltert und für die Weiterverarbeitung verpackt werden.
+
+```python
+    def run(self):
+        data = {}
+        try:
+            f = self.metadata['update_rate']
+        except KeyError:
+            f = 1
+        finally:
+            t = 1 / f
+        while True:
+            if self.lib.dwm_loc_get(byref(self.loc)) == 0:
+                data = dict(self.loc.anchors.dist)
+                data['position'] = (self.loc.p_pos.contents.x,
+                                    self.loc.p_pos.contents.y,
+                                    self.loc.p_pos.contents.z)
+                data['qf'] = self.loc.p_pos.contents.qf
+                self.data = data
+            sleep(t)
+```
